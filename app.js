@@ -2,8 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Todo = require("./models/todos");
 
-const uri =
-  "mongodb+srv://pratik:v4hGtC353oYCzTiu@cluster0.vugkh.mongodb.net/todo_app?retryWrites=true&w=majority";
+const uri = process.env.URI;
 mongoose
   .connect(uri)
   .then(() => console.log("connected to mongodb"))
