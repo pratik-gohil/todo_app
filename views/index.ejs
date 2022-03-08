@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <form class="add-todo" action="/todo" method="POST">
+          <input class="add-todo-input" id="text" name="text" placeholder="Add todo..." required />
+          <button class="add-todo-button" type="submit"><span>&#x2715</span></button>
+        </form>
+        <% if(todos.length) { %> <% todos.map(todo => { %>
+        <div class="todo <%= todo.done ? 'done' : '' %>">
+          <div class="todo-text"><%= todo.text %></div>
+          <button class="todo-button delete" data-id="<%= todo._id %> ">&#x2715</button>
+        </div>
+        <% }) %> <% } else { %>
+        <p class="no-todos">Add you first todo...</p>
+        <% } %>
+      </div>
+    </div>
+
+    <script>
+      const deleteTodo = document.querySelectorAll('.todo-button.delete');
+
+      deleteTodo.forEach(todo => {
+        todo.addEventListener('click', () => {
+          fetch(`/todo/${todo.dataset.id}`, {
+            method: 'DELETE'
+          }).then((response) => response.json()).then((data) => window.location.href = data.redirect).catch(err => console.log(err))
+        })
+      })
+
+    </script>
+  </body>
+</html>
